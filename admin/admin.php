@@ -52,7 +52,7 @@ if ($_REQUEST['service'] && $_REQUEST['action']) {
 				exec('/etc/rc.d/transmission stop');
 			}
 			break;
-		case 'daapd':
+		case 'daap':
 			if ($action == 'restart') {
 				config_lock();
 				exec('killall mt-daapd');
