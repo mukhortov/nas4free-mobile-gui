@@ -89,6 +89,21 @@ if ($_REQUEST['service'] && $_REQUEST['action']) {
 				$msg = 'The UPnP service has been stopped.';
 			}
 			break;
+		case 'mediatomb':
+			if ($action == 'restart') {
+				exec('killall minidlna');
+				exec('killall mediatomb');
+				exec('/usr/local/bin/mediatomb -c /mnt/sys/system/apps/mediatomb/config.xml -d');
+				$msg = 'The DLNA service is restaring now. This may take one minute.';
+			} elseif ($action == 'restart-ui') {
+				exec('killall mediatomb');
+				exec('/usr/local/bin/mediatomb -c /mnt/sys/system/apps/mediatomb/config-web.xml -d');
+				$msg = 'The DLNA service (web UI) is restaring now. This may take one minute.';
+			} elseif ($action == 'stop') {
+				exec('killall mediatomb');
+				$msg = 'The DLNA service has been stopped.';
+			}
+			break;
 	}
 	echo $msg;
 }
