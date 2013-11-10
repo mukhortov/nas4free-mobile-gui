@@ -68,6 +68,7 @@ if ($_REQUEST['service'] && $_REQUEST['action']) {
 		case 'minidlna':
 			if ($action == 'restart') {
 				exec('killall minidlna');
+				//You need to change the confic path
 				exec('/usr/local/sbin/minidlna -f /mnt/sys/system/apps/minidlna/minidlna.conf');
 				$msg = 'The MiniDLNA service is restarting now.';
 			} elseif ($action == 'stop') {
@@ -92,15 +93,17 @@ if ($_REQUEST['service'] && $_REQUEST['action']) {
 		case 'mediatomb':
 			if ($action == 'restart') {
 				exec('killall mediatomb');
+				//You need to change the confic path
 				exec('/usr/local/bin/mediatomb -c /mnt/sys/system/apps/mediatomb/config.xml -d');
-				$msg = 'The DLNA service is restaring now. This may take one minute.';
+				$msg = 'The MediaTomb service is restaring now. This may take one minute.';
 			} elseif ($action == 'restart-ui') {
 				exec('killall mediatomb');
+				//You need to change the confic path
 				exec('/usr/local/bin/mediatomb -c /mnt/sys/system/apps/mediatomb/config-web.xml -d');
-				$msg = 'The DLNA service (web UI) is restaring now. This may take one minute.';
+				$msg = 'The MediaTomb service (web UI) is restaring now. This may take one minute.';
 			} elseif ($action == 'stop') {
 				exec('killall mediatomb');
-				$msg = 'The DLNA service has been stopped.';
+				$msg = 'The MediaTomb service has been stopped.';
 			}
 			break;
 	}
