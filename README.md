@@ -1,4 +1,4 @@
-Mobile web GUI for NAS4free
+Mobile web GUI for NAS4Free
 ========
 
 Mobile GUI for NAS4Free allows to restart/stop some services on your NAS based on NAS4Free operation system.
