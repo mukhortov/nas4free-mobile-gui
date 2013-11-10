@@ -91,7 +91,6 @@ if ($_REQUEST['service'] && $_REQUEST['action']) {
 			break;
 		case 'mediatomb':
 			if ($action == 'restart') {
-				exec('killall minidlna');
 				exec('killall mediatomb');
 				exec('/usr/local/bin/mediatomb -c /mnt/sys/system/apps/mediatomb/config.xml -d');
 				$msg = 'The DLNA service is restaring now. This may take one minute.';
