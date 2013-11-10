@@ -1,0 +1,302 @@
+<!doctype html>
+<html>
+<head>
+<title> Keg </title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="author" content="Petr Mukhortov">
+
+<link href="css/jqtouch.css" type="text/css" rel="stylesheet">
+<link href="css/theme.css" type="text/css" rel="stylesheet">
+<link href="css/style.css" type="text/css" rel="stylesheet">
+
+<script src="js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/jqtouch.min.js" type="application/x-javascript" charset="utf-8"></script>
+
+<script language="JavaScript">
+	var jQT = new $.jQTouch({
+		//icon: 'img/jqtouch.png',
+		icon4: 'img/gui-icon.png',
+		addGlossToIcon: false,
+		startupScreen: 'img/load5.png',
+		statusBar: 'black',
+			preloadImages: [
+				'img/bg_noise.png',
+				'img/border_button_back.png',
+				'img/loading.gif',
+				'img/chevron_circle.svg',
+				'img/chevron_dark.svg',
+				'img/chevron.svg',
+				'img/mask_button_back.svg'
+				]
+	});
+
+	var baseUrl = '';
+	//var baseUrl = location.protocol+'//'+location.hostname; //http://yourhostname.com;
+	//var baseUrl = 'http://yourhostname.com';
+
+	$(function(){
+		function sendRequest(o) {
+			if (o.sel) {
+				$(o.sel).click(function(){
+					var e = this;
+					confirm (o.msg, function(){
+						$(e).css('opacity','0.3');
+						$.ajax({
+							url: baseUrl+o.url,
+							success: function (response) {
+								if (response) {
+									alert(response);
+								}
+								$(e).css('opacity','1');
+							},
+							error: function (request, status) {}
+						});
+					});
+				});
+			} else {
+				console.log('sendRequest: no options defined');
+			}
+		}
+
+		sendRequest({
+			sel : '#shutdown .shutdown',
+			msg : 'Are you sure you want to shutdown the server?',
+			url : 'admin/admin.php?service=shutdown&action=shutdown'
+		});
+
+		sendRequest({
+			sel : '#shutdown .reboot',
+			msg : 'Are you sure you want to reboot the server?',
+			url : 'admin/admin.php?service=shutdown&action=restart'
+		});
+
+		sendRequest({
+			sel : '#transmission .transmission',
+			msg : 'Are you sure you want to restart the Transmission Service?',
+			url : 'admin/admin.php?service=transmission&action=restart'
+		});
+
+		sendRequest({
+			sel : '#transmission .stoptransmission',
+			msg : 'Are you sure you want to stop the Transmission Service?',
+			url : 'admin/admin.php?service=transmission&action=stop'
+		});
+
+		sendRequest({
+			sel : '#minidlna .restart',
+			msg : 'Are you sure you want to restart the MiniDLNA Service?',
+			url : 'admin/admin.php?service=minidlna&action=restart'
+		});
+
+		sendRequest({
+			sel : '#minidlna .stop',
+			msg : 'Are you sure you want to stop the MiniDLNA Service?',
+			url : 'admin/admin.php?service=minidlna&action=stop'
+		});
+
+		sendRequest({
+			sel : '#dlna .restart',
+			msg : 'Are you sure you want to restart the DLNA Service?',
+			url : 'admin/admin.php?service=mediatomb&action=restart'
+		});
+
+		sendRequest({
+			sel : '#dlna .stop',
+			msg : 'Are you sure you want to stop DLNA Service?',
+			url : 'admin/admin.php?service=mediatomb&action=stop'
+		});
+
+		sendRequest({
+			sel : '#dlna .restart-ui',
+			msg : 'Are you sure you want to restart DLNA Service with web UI?',
+			url : 'admin/admin.php?service=mediatomb&action=restart-ui'
+		});
+
+		sendRequest({
+			sel : '#cron .stop',
+			msg : 'Are you sure you want to stop Cron service?',
+			url : 'admin/admin.php?service=cron&action=stop'
+		});
+
+		sendRequest({
+			sel : '#cron .start',
+			msg : 'Are you sure you want to start Cron service?',
+			url : 'admin/admin.php?service=cron&action=start'
+		});
+
+		sendRequest({
+			sel : '#home .bonjour',
+			msg : 'Are you sure you want to restart Bonjour service?',
+			url : 'admin/admin.php?service=bonjour&action=restart'
+		});
+
+		sendRequest({
+			sel : '#daap .restart',
+			msg : 'Are you sure you want to restart DAAP service?',
+			url : 'admin/admin.php?service=daap&action=restart'
+		});
+
+		sendRequest({
+			sel : '#daap .stop',
+			msg : 'Are you sure you want to stop DAAP service?',
+			url : 'admin/admin.php?service=daap&action=stop'
+		});
+	});
+
+	/* Alert.js */
+	/* Overriding native alert() and confirm() functions */
+	(function() {
+	
+		function removeAlert() {
+			var e = document.getElementById('_alert');
+			e.parentNode.removeChild(e);
+		}
+	
+		function showAlert (arguments,callback) {
+			arguments = arguments.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+			var div = document.createElement("div");
+			div.id = "_alert";
+			div.innerHTML = '\
+				<div id="alert-overlay"></div>\
+				<div id="alert-container">\
+					<div id="alert-message">'+arguments+'</div>\
+					<input type="hidden" value="Cancel" id="alert-cancel">\
+					<input type="button" value="OK" id="alert-button">\
+				</div>';
+			document.body.appendChild(div);
+	
+			centerAlert();
+			window.onresize = centerAlert;
+			
+			var button = document.getElementById("alert-button");
+			button.focus();
+			button.onclick = function() {
+				removeAlert();
+				if (callback) callback();
+			}
+		}
+	
+		function centerAlert() {
+			var box = document.getElementById("alert-container");
+			box.style.left = (window.innerWidth - box.offsetWidth) / 2 + "px";
+			box.style.top = (window.innerHeight - box.offsetHeight) / 2 + "px";
+		}
+	
+		window.alert = function(arguments,callback) {
+			showAlert (arguments,callback);
+		};
+	
+		window.confirm = function(arguments,callback) {
+			showAlert (arguments,callback);
+			var cancel = document.getElementById("alert-cancel");
+			cancel.type = 'button';
+			cancel.focus();
+			cancel.onclick = removeAlert;
+		}
+	
+	})();
+
+</script>
+</head>
+<body>
+<div id="jqt">
+
+	<div id="home">
+		<div class="toolbar">
+			<h1>NAS4Free</h1>
+		</div>
+
+		<h1>System</h1>
+		<ul class="rounded">
+			<li class="arrow"><a href="#shutdown">Shutdown</a></li>
+			<li><a href="javascript: location.reload();">Reload</a></li>
+		</ul>
+		<h2>Services</h2>
+		<ul class="rounded">
+			<li><a href="#" class="bonjour">Restart Bonjour Service</a></li>
+			<li class="arrow"><a href="#cron">Cron</a></li>
+			<li class="arrow"><a href="#transmission">Transmission</a></li>
+			<li class="arrow"><a href="#daap">iTunes DAAP</a></li>
+			<li class="arrow"><a href="#minidlna">MiniDLNA</a></li>
+			<li class="arrow"><a href="#dlna">MediaTomb</a></li>
+		</ul>
+	</div>
+
+	<div id="sysinfo">
+		<div class="toolbar">
+			<h1>System Information</h1>
+			<a href="#back" class="back">Back</a>
+		</div>
+		<ol class="results"><a href="#" class="sysinfo">load</a></ol>
+	</div>
+
+	<div id="shutdown">
+		<div class="toolbar">
+			<h1>Shutdown</h1>
+			<a href="#back" class="back">Back</a>
+		</div>
+		<ul class="rounded">
+			<li><a href="#" class="shutdown">Shutdown the Server</a></li>
+			<li><a href="#" class="reboot">Reboot the Server</a></li>
+		</ul>
+	</div>
+
+	<div id="cron">
+		<div class="toolbar">
+			<h1>Cron</h1>
+			<a href="#back" class="back">Back</a>
+		</div>
+		<ul class="rounded">
+			<li><a href="#" class="stop">Stop Cron</a></li>
+			<li><a href="#" class="start">Start Cron</a></li>
+		</ul>
+	</div>
+
+	<div id="transmission">
+		<div class="toolbar">
+			<h1>Transmission</h1>
+			<a href="#back" class="back">Back</a>
+		</div>
+		<ul class="rounded">
+			<li><a href="#" class="transmission">Restart Transmission</a></li>
+			<li><a href="#" class="stoptransmission">Stop Transmission</a></li>
+		</ul>
+	</div>
+
+	<div id="daap">
+		<div class="toolbar">
+			<h1>iTunes DAAP</h1>
+			<a href="#back" class="back">Back</a>
+		</div>
+		<ul class="rounded">
+			<li><a href="#" class="restart">Restart DAAP</a></li>
+			<li><a href="#" class="stop">Stop DAAP</a></li>
+		</ul>
+	</div>
+	
+	<div id="minidlna">
+		<div class="toolbar">
+			<h1>MiniDLNA</h1>
+			<a href="#back" class="back">Back</a>
+		</div>
+		<ul class="rounded">
+			<li><a href="#" class="restart">Restart MiniDLNA</a></li>
+			<li><a href="#" class="stop">Stop MiniDLNA</a></li>
+		</ul>
+	</div>
+	
+	<div id="dlna">
+		<div class="toolbar">
+			<h1>MediaTomb</h1>
+			<a href="#back" class="back">Back</a>
+		</div>
+		<ul class="rounded">
+			<li><a href="#" class="restart">Restart MediaTomb</a></li>
+			<li><a href="#" class="restart-ui">Restart MediaTomb (web UI)</a></li>
+			<li><a href="#" class="stop">Stop MediaTomb</a></li>
+		</ul>
+	</div>
+
+</div>
+</body>
+</html>
