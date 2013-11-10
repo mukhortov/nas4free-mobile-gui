@@ -3,6 +3,10 @@ Mobile web GUI for NAS4free
 
 Mobile GUI for NAS4Free allows to restart/stop some services on your NAS based on NAS4Free operation system.
 
+#### What's NAS4Free?
+
+http://www.nas4free.org/
+
 ## Usage:
 
 * Unpack downloaded nas4free-mobile-gui-master.zip file.
