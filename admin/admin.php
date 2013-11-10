@@ -44,10 +44,10 @@ if ($_REQUEST['service'] && $_REQUEST['action']) {
 			}
 			break;
 		case 'transmission':
-			if ($_REQUEST['restart'] == 'Yes') {
+			if ($action == 'restart') {
 				$msg = 'Transmission has been restarted.';
 				exec('/etc/rc.d/transmission restart');
-			} else if ($_REQUEST['restart'] == 'stop') {
+			} else if ($action == 'stop') {
 				$msg = 'Transmission Service has been stopped.';
 				exec('/etc/rc.d/transmission stop');
 			}
