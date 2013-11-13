@@ -95,12 +95,12 @@ if ($_REQUEST['service'] && $_REQUEST['action']) {
 				exec('killall mediatomb');
 				//You need to change the confic path
 				exec('/usr/local/bin/mediatomb -c /mnt/sys/system/apps/mediatomb/config.xml -d');
-				$msg = 'The MediaTomb service is restaring now. This may take one minute.';
+				$msg = 'The MediaTomb service is restarting now. This may take one minute.';
 			} elseif ($action == 'restart-ui') {
 				exec('killall mediatomb');
 				//You need to change the confic path
 				exec('/usr/local/bin/mediatomb -c /mnt/sys/system/apps/mediatomb/config-web.xml -d');
-				$msg = 'The MediaTomb service (web UI) is restaring now. This may take one minute.';
+				$msg = 'The MediaTomb service (web UI) is restarting now. This may take one minute.';
 			} elseif ($action == 'stop') {
 				exec('killall mediatomb');
 				$msg = 'The MediaTomb service has been stopped.';
